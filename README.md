@@ -1,4 +1,6 @@
 # PetClinicCRUD
+In this project I simulate the process to create a database of a Pet Clinic in which we store data about employees, animals, as well as about the medical analysis sheet of the animal! In this project I used the console as a way to enter and display data!
+
 Dec. 2020
 
 Project description
