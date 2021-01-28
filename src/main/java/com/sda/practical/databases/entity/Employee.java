@@ -25,10 +25,10 @@ public class Employee {
     private String speciality;
 
 
-    //EAGER aduce toate informatia din baza de date in set
-    //Cu tot cu relatii dintre fk sau pk
+    //EAGER aduce toate informatia din baza de date
 
-    // LAZY(mai rapid) aduce informatia fara relatia(doar din tabla respectiva)
+
+    // LAZY(mai rapid) aduce doar o anumita informatie
 
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Examination> examinations;
