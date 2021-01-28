@@ -134,13 +134,13 @@ public class MenuPet implements MenuServices {
             case 1:
                 System.out.print("Insert the new vaccination status value (Y/N): ");
                 Character newVaccineStatus = scanner.nextLine().toUpperCase().charAt(0);
-                updateMethodFields(pet, null, newVaccineStatus, PetFields.PET_VACCINATION.getName());
+                updateMethodFields(pet, null, newVaccineStatus, PetFields.PET_VACCINATION);
                 break;
             case 2:
                 System.out.print("Insert the new age value: ");
                 Integer newAge = scanner.nextInt();
                 scanner.nextLine();
-                updateMethodFields(pet, newAge, null, PetFields.PET_AGE.getName());
+                updateMethodFields(pet, newAge, null, PetFields.PET_AGE);
                 break;
             case 3:
                 chooseMenuOptions();
@@ -157,11 +157,11 @@ public class MenuPet implements MenuServices {
     }
 
     public Pet verifyConditionForUpdate(Pet pet, Integer newAge, Character newVaccineStatus, String verifyCondition) {
-        if (verifyCondition.equals(PetFields.PET_AGE.getName())) {
+        if (verifyCondition.equals(PetFields.PET_AGE)) {
             getPetById(pet);
             pet.setAge(newAge);
             printPet(pet);
-        } else if (verifyCondition.equals(PetFields.PET_VACCINATION.getName())) {
+        } else if (verifyCondition.equals(PetFields.PET_VACCINATION)) {
             getPetById(pet);
             Boolean newVaccine = booleanType(newVaccineStatus);
             pet.setVaccinated(newVaccine);
@@ -191,15 +191,15 @@ public class MenuPet implements MenuServices {
     }
 
     public Pet createPetByUser() {
-        String petName = insertField(PetFields.PET_NAME.getName());
+        String petName = insertField(PetFields.PET_NAME);
         System.out.print("Insert Pet's age: ");
         Integer petAge = scanner.nextInt();
         scanner.nextLine();
-        String petType = insertField(PetFields.PET_TYPE.getName());
-        String petBreed = insertField(PetFields.PET_BREED.getName());
+        String petType = insertField(PetFields.PET_TYPE);
+        String petBreed = insertField(PetFields.PET_BREED);
         System.out.print("Insert Pet's vaccinated status: ");
         Character petVaccinatedStatus = scanner.nextLine().toUpperCase().charAt(0);
-        String petOwnerName = insertField(PetFields.OWNER_NAME.getName());
+        String petOwnerName = insertField(PetFields.OWNER_NAME);
         Boolean isVaccinated = booleanType(petVaccinatedStatus);
         return new Pet(petName, petAge, petType, petBreed, isVaccinated, petOwnerName);
     }

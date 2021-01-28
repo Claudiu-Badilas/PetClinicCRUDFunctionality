@@ -43,12 +43,12 @@ public class MenuExamination implements MenuServices {
                     break;
                 case 2:
                     printExaminationFromDatabase();
-                    chooseFieldToUpdate(ExaminationFields.TREATMENT.getName());
+                    chooseFieldToUpdate(ExaminationFields.TREATMENT);
                     chooseAnotherMenuOption();
                     break;
                 case 3:
                     printExaminationForCheckoutFromDatabase();
-                    chooseFieldToUpdate(ExaminationFields.CHECK_OUT.getName());
+                    chooseFieldToUpdate(ExaminationFields.CHECK_OUT);
                     chooseAnotherMenuOption();
                     break;
                 case 4:
@@ -104,11 +104,11 @@ public class MenuExamination implements MenuServices {
     public void chooseFieldToUpdate(String fieldName) {
         Examination examination = selectExaminationOfThePetBId();
         System.out.println();
-        if (fieldName.equals(ExaminationFields.TREATMENT.getName())) {
-            String newTreatment = insertField(ExaminationFields.TREATMENT.getName());
+        if (fieldName.equals(ExaminationFields.TREATMENT)) {
+            String newTreatment = insertField(ExaminationFields.TREATMENT);
             updateMethodFields(examination, newTreatment);
-        } else if (fieldName.equals(ExaminationFields.CHECK_OUT.getName())) {
-            String date = insertField(ExaminationFields.CHECK_OUT.getName());
+        } else if (fieldName.equals(ExaminationFields.CHECK_OUT)) {
+            String date = insertField(ExaminationFields.CHECK_OUT);
             Date checkOut = convertStringToDate(date);
             Integer id = examination.getExamId();
             examination = dao.getExamination(id);
@@ -141,9 +141,9 @@ public class MenuExamination implements MenuServices {
     }
 
     public void createExaminationByUser() {
-        String examinationCheckIn = insertField(ExaminationFields.CHECK_IN.getName());
+        String examinationCheckIn = insertField(ExaminationFields.CHECK_IN);
         Date checkInDate = convertStringToDate(examinationCheckIn);
-        String petTreatmentDetails = insertField(ExaminationFields.TREATMENT.getName());
+        String petTreatmentDetails = insertField(ExaminationFields.TREATMENT);
 
         Examination examination = new Examination(checkInDate, null, petTreatmentDetails);
 

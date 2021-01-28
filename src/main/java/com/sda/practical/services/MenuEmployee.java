@@ -123,26 +123,26 @@ public class MenuEmployee implements MenuServices {
 
         switch (userInsertOption) {
             case 1:
-                String newFirstName = userUpdateInput(EmployeeFields.FIRSTNAME.getName());
-                Employee updateEmployeeFirstName = updateMethodFields(employee, newFirstName, EmployeeFields.FIRSTNAME.getName());
+                String newFirstName = userUpdateInput(EmployeeFields.FIRSTNAME);
+                Employee updateEmployeeFirstName = updateMethodFields(employee, newFirstName, EmployeeFields.FIRSTNAME);
                 printEmployee(updateEmployeeFirstName);
                 succesfullySaved();
                 break;
             case 2:
-                String newLastName = userUpdateInput(EmployeeFields.LASTNAME.getName());
-                Employee updateEmployeeLastName = updateMethodFields(employee, newLastName, EmployeeFields.LASTNAME.getName());
+                String newLastName = userUpdateInput(EmployeeFields.LASTNAME);
+                Employee updateEmployeeLastName = updateMethodFields(employee, newLastName, EmployeeFields.LASTNAME);
                 printEmployee(updateEmployeeLastName);
                 succesfullySaved();
                 break;
             case 3:
-                String newAddress = userUpdateInput(EmployeeFields.ADDRESS.getName());
-                Employee updateEmployeeAddress = updateMethodFields(employee, newAddress, EmployeeFields.ADDRESS.getName());
+                String newAddress = userUpdateInput(EmployeeFields.ADDRESS);
+                Employee updateEmployeeAddress = updateMethodFields(employee, newAddress, EmployeeFields.ADDRESS);
                 printEmployee(updateEmployeeAddress);
                 succesfullySaved();
                 break;
             case 4:
-                String newSpeciality = userUpdateInput(EmployeeFields.SPECIALITY.getName());
-                Employee updateEmployeeSpeciality = updateMethodFields(employee, newSpeciality, EmployeeFields.SPECIALITY.getName());
+                String newSpeciality = userUpdateInput(EmployeeFields.SPECIALITY);
+                Employee updateEmployeeSpeciality = updateMethodFields(employee, newSpeciality, EmployeeFields.SPECIALITY);
                 printEmployee(updateEmployeeSpeciality);
                 succesfullySaved();
                 break;
@@ -193,16 +193,16 @@ public class MenuEmployee implements MenuServices {
     }
 
     public Employee verifyConditionForUpdate(Employee employee, String newField, String verifyCondition) {
-        if (verifyCondition.equals(EmployeeFields.FIRSTNAME.getName())) {
+        if (verifyCondition.equals(EmployeeFields.FIRSTNAME)) {
             getEmployeeById(employee);
             employee.setFirstName(newField);
-        } else if (verifyCondition.equals(EmployeeFields.LASTNAME.getName())) {
+        } else if (verifyCondition.equals(EmployeeFields.LASTNAME)) {
             getEmployeeById(employee);
             employee.setLastName(newField);
-        } else if (verifyCondition.equals(EmployeeFields.ADDRESS.getName())) {
+        } else if (verifyCondition.equals(EmployeeFields.ADDRESS)) {
             getEmployeeById(employee);
             employee.setAddress(newField);
-        } else if (verifyCondition.equals(EmployeeFields.SPECIALITY.getName())) {
+        } else if (verifyCondition.equals(EmployeeFields.SPECIALITY)) {
             getEmployeeById(employee);
             employee.setSpeciality(newField);
         }
@@ -230,10 +230,10 @@ public class MenuEmployee implements MenuServices {
     }
 
     public Employee createEmployeeByUser() {
-        String firstName = insertField(EmployeeFields.FIRSTNAME.getName());
-        String lastName = insertField(EmployeeFields.LASTNAME.getName());
-        String address = insertField(EmployeeFields.ADDRESS.getName());
-        String speciality = insertField(EmployeeFields.SPECIALITY.getName());
+        String firstName = insertField(EmployeeFields.FIRSTNAME);
+        String lastName = insertField(EmployeeFields.LASTNAME);
+        String address = insertField(EmployeeFields.ADDRESS);
+        String speciality = insertField(EmployeeFields.SPECIALITY);
         return new Employee(firstName, lastName, address, speciality);
     }
 

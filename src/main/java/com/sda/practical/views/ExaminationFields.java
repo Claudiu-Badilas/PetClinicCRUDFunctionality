@@ -1,17 +1,9 @@
 package com.sda.practical.views;
 
-public enum ExaminationFields {
-    CHECK_IN("checkIn (DD/MM/YYYY)"),
-    CHECK_OUT("checkOut (DD/MM/YYYY)"),
-    TREATMENT("treatment");
+public interface ExaminationFields {
+    String CHECK_IN = "checkIn (DD/MM/YYYY)";
+    String CHECK_OUT = "checkOut (DD/MM/YYYY)";
+    String TREATMENT = "treatment";
 
-    private String name;
 
-    ExaminationFields(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
 }

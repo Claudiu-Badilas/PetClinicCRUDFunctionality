@@ -24,10 +24,7 @@ public class Employee {
     @Column(name = "SPECIALITY")
     private String speciality;
 
-
-    //EAGER aduce toate informatia din baza de date
-
-
+    //EAGER aduce toate informatia din baza de dat
     // LAZY(mai rapid) aduce doar o anumita informatie
 
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
