@@ -1,9 +1,10 @@
-package com.sda.practical.views;
+package com.sda.practical.databases.model.model_fields;
 
 public interface EmployeeFields {
-    String FIRSTNAME = "First Name";
-    String LASTNAME = "Last Name";
+    String FIRST_NAME = "First Name";
+    String FULL_NAME = "Full Name";
     String ADDRESS = "Address";
+    String PHONE_NUMBER = "Phone Number";
     String SPECIALITY = "Speciality";
 
 //    private String name;

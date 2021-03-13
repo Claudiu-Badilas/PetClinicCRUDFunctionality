@@ -1,4 +1,4 @@
-package com.sda.practical.views;
+package com.sda.practical.databases.model.model_fields;
 
 public interface ExaminationFields {
     String CHECK_IN = "checkIn (DD/MM/YYYY)";

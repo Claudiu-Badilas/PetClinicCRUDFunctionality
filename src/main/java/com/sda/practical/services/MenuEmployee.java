@@ -1,162 +1,98 @@
 package com.sda.practical.services;
 
-import com.sda.practical.databases.dao.EmployeeDao;
-import com.sda.practical.databases.entity.Employee;
-import com.sda.practical.views.EmployeeFields;
-import com.sda.practical.views.MenuServices;
+import com.sda.practical.databases.model.Employee;
+import com.sda.practical.databases.model.Speciality;
+import com.sda.practical.databases.model.model_fields.EmployeeFields;
+import com.sda.practical.databases.repository.EmployeeRepository;
+import com.sda.practical.databases.repository.SpecialityRepository;
+import com.sda.practical.views.ConsolePrints;
+import com.sda.practical.views.MenuService;
+import com.sda.practical.views.MenuType;
 
-import java.util.List;
 import java.util.Scanner;
 
-public class MenuEmployee implements MenuServices {
-    EmployeeDao dao = new EmployeeDao();
+public class MenuEmployee {
     Scanner scanner = new Scanner(System.in);
+    MenuService menu = new MenuService();
+    EmployeeRepository employeeRepository = new EmployeeRepository();
+    ConsolePrints print = new ConsolePrints();
+    SpecialityRepository specialityRepository = new SpecialityRepository();
 
-    @Override
-    public void showMenu() {
-        System.out.println("" +
-                "1. Add a new employee \n" +
-                "2. Update an existing employee \n" +
-                "3. Delete an employee \n" +
-                "4. View all employees\n" +
-                "5. Return to principal menu!\n");
+    // START CASE 1
+    private String insertField(String fieldName) {
+        System.out.print("Insert " + fieldName + ": ");
+        return scanner.nextLine();
     }
 
-
-    @Override
-    public void chooseMenuOptions() {
-        System.out.println("\n ⫷⫷⫷⫷⫷⫷⫷⫷⫷⫷⫷⫷⫷⫷⫷⫷⫷⫷     Welcome to Employee Menu     ⫸⫸⫸⫸⫸⫸⫸⫸⫸⫸⫸⫸⫸⫸⫸⫸⫸⫸ \n");
-        showMenu();
-        System.out.print("Please choose a valid option: ");
-        Integer userOption;
-        do {
-            userOption = scanner.nextInt();
-            scanner.nextLine();
-            switch (userOption) {
-                case 1:
-                    addEmployeeToDatabase();
-                    chooseAnotherMenuOption();
-                    break;
-                case 2:
-                    chooseFieldToUpdate();
-                    chooseAnotherMenuOption();
-                    break;
-                case 3:
-                    showAllEmployeesFromDatabase();
-                    chooseEmployeeToDelete();
-                    chooseAnotherMenuOption();
-                    break;
-                case 4:
-                    showAllEmployeesFromDatabase();
-                    chooseAnotherMenuOption();
-                    break;
-                case 5:
-                    new Menu().showMenu();
-                    break;
-                default:
-                    invalidOptionMessage();
-            }
-        } while (userOption < 1 || userOption > 5);
+    private Employee createEmployee() {
+        Employee employee = new Employee();
+        employee.setFullName(insertField(EmployeeFields.FULL_NAME));
+        employee.setPhoneNumber(insertField(EmployeeFields.PHONE_NUMBER));
+        employee.setAddress(insertField(EmployeeFields.ADDRESS));
+        employee.setSpeciality(selectSpeciality());
+        return employee;
     }
 
-
-
-    // START CASE 4
-
-    public void showAllEmployeesFromDatabase() {
-        System.out.println("《《《《《     List of Employees    》》》》》");
-        List<Employee> employees = dao.getEmployees();
-        for (Employee employee : employees) {
-            System.out.println("-----------------------------------------------------------------------");
-            System.out.println(employee);
-            System.out.println("-----------------------------------------------------------------------");
-        }
+    private void showAllSpecialitiesFromDatabase(){
+        System.out.println("《《《《《     List of Specialities    》》》》》");
+        specialityRepository.findAll().forEach(s -> System.out.println("------------------------------------\n" + s));
+        System.out.println("------------------------------------");
     }
 
-    // END CASE 4
-
-    // START CASE 3
-    public void chooseEmployeeToDelete() {
-        System.out.print("Insert the first name of the employee you are looking for: ");
-        String firstName = scanner.nextLine();
-        Employee employee = serchEmployeeByFirstName(firstName);
-        printEmployee(employee);
-        Character userAnswer = askedForValidation();
-        verifyAnswer(userAnswer, employee);
-
+    private Speciality selectSpeciality(){
+        showAllSpecialitiesFromDatabase();
+        System.out.println("Select the id corresponding to specialities for setting to the new employee!");
+        System.out.print("Insert id here: ");
+        int userOption = scanner.nextInt();
+        scanner.nextLine();
+        return specialityRepository.findById(userOption);
     }
 
-    public Character askedForValidation() {
-        System.out.println("Are you sure you want to delete this employee? (Y/N)");
-        Character userAnswer = scanner.nextLine().toUpperCase().charAt(0);
-        return userAnswer;
+    public void saveEmployeeToDatabase() {
+        System.out.println("Complete fields for the new employee");
+        Employee employee = createEmployee();
+        employeeRepository.save(employee);
     }
 
-    public void verifyAnswer(Character answer, Employee employee) {
-        if (answer.equals('Y')) {
-            Integer id = employee.getEmployeeId();
-            employee = dao.getEmployee(id);
-            dao.deleteEmployee(employee);
-            System.out.println("Your selection was deleted with succes!");
-        } else if (answer.equals('N')) {
-            chooseMenuOptions();
-        } else {
-            //do something
-        }
-    }
+        //END CASE 1
 
-    // END CASE 3
-
-//==================================================================================================================
-
-    // START CASE 2
+       //===================== START CASE 2
     public void chooseFieldToUpdate() {
         showAllEmployeesFromDatabase();
-        System.out.print("\nInsert the first name of the employee you are looking for: ");
-        String firstName = scanner.nextLine();
-        Employee employee = serchEmployeeByFirstName(firstName);
+        System.out.print("\nInsert the id of the employee you are looking for: ");
+        Integer id = scanner.nextInt();
+        scanner.nextLine();
+        Employee employee = findEmployeeById(id);
         printEmployee(employee);
-        showMenuForUpdate();
+        menu.printMenu(MenuType.EMPLOYEE_UPDATE_MENU);
         System.out.print("Select witch field you want to update from selected employee: ");
         int userInsertOption = scanner.nextInt();
         scanner.nextLine();
 
         switch (userInsertOption) {
             case 1:
-                String newFirstName = userUpdateInput(EmployeeFields.FIRSTNAME);
-                Employee updateEmployeeFirstName = updateMethodFields(employee, newFirstName, EmployeeFields.FIRSTNAME);
+                String newFirstName = userUpdateInput(EmployeeFields.FULL_NAME);
+                Employee updateEmployeeFirstName = updateMethodFields(employee, newFirstName, EmployeeFields.FULL_NAME);
                 printEmployee(updateEmployeeFirstName);
-                succesfullySaved();
+                print.successfullySavedMessage();
                 break;
             case 2:
-                String newLastName = userUpdateInput(EmployeeFields.LASTNAME);
-                Employee updateEmployeeLastName = updateMethodFields(employee, newLastName, EmployeeFields.LASTNAME);
-                printEmployee(updateEmployeeLastName);
-                succesfullySaved();
-                break;
-            case 3:
                 String newAddress = userUpdateInput(EmployeeFields.ADDRESS);
                 Employee updateEmployeeAddress = updateMethodFields(employee, newAddress, EmployeeFields.ADDRESS);
                 printEmployee(updateEmployeeAddress);
-                succesfullySaved();
+                print.successfullySavedMessage();
                 break;
-            case 4:
-                String newSpeciality = userUpdateInput(EmployeeFields.SPECIALITY);
-                Employee updateEmployeeSpeciality = updateMethodFields(employee, newSpeciality, EmployeeFields.SPECIALITY);
-                printEmployee(updateEmployeeSpeciality);
-                succesfullySaved();
-                break;
-            case 5:
-                chooseFieldToUpdate();
+            case 3:
+                //chooseFieldToUpdate();
             default:
-                invalidOptionMessage();
+                print.invalidOptionMessage();
         }
     }
 
-    public Employee serchEmployeeByFirstName(String firstName) {
+    public Employee findEmployeeById(Integer id) {
         Employee employee;
         try {
-            employee = dao.getEmployeeByFirstName(firstName);
+            employee = employeeRepository.findById(id);
             return employee;
         } catch (Exception e) {
             System.out.println("This employee doesn't exist in our database!");
@@ -171,16 +107,6 @@ public class MenuEmployee implements MenuServices {
         System.out.println("========================================================");
     }
 
-    public void showMenuForUpdate() {
-        System.out.println(
-                "1. Update first name  \n" +
-                        "2. Update last name  \n" +
-                        "3. Update address  \n" +
-                        "4. Update speciality  \n" +
-                        "5. Return!");
-        System.out.println();
-    }
-
     public String userUpdateInput(String fieldName) {
         System.out.print("Insert the new " + fieldName + " for the employee: ");
         return scanner.nextLine();
@@ -188,88 +114,57 @@ public class MenuEmployee implements MenuServices {
 
     public Employee updateMethodFields(Employee employee, String newField, String verifyCondition) {
         Employee employeeWithFildUpdated = verifyConditionForUpdate(employee, newField, verifyCondition);
-        dao.updateEmployee(employeeWithFildUpdated);
+        employeeRepository.update(employeeWithFildUpdated);
         return employeeWithFildUpdated;
     }
 
     public Employee verifyConditionForUpdate(Employee employee, String newField, String verifyCondition) {
-        if (verifyCondition.equals(EmployeeFields.FIRSTNAME)) {
-            getEmployeeById(employee);
-            employee.setFirstName(newField);
-        } else if (verifyCondition.equals(EmployeeFields.LASTNAME)) {
-            getEmployeeById(employee);
-            employee.setLastName(newField);
+        if (verifyCondition.equals(EmployeeFields.FULL_NAME)) {
+            employee.setFullName(newField);
         } else if (verifyCondition.equals(EmployeeFields.ADDRESS)) {
-            getEmployeeById(employee);
             employee.setAddress(newField);
-        } else if (verifyCondition.equals(EmployeeFields.SPECIALITY)) {
-            getEmployeeById(employee);
-            employee.setSpeciality(newField);
         }
         return employee;
     }
-
-    public Employee getEmployeeById(Employee employee) {
-        Integer id = employee.getEmployeeId();
-        return dao.getEmployee(id);
-    }
-
-    public void succesfullySaved() {
-        System.out.println("\nʕ•́ᴥ•̀ʔっ");
-        System.out.println("Your update was succesfully saved!");
-    }
-
     //END CASE 2
 
-//====================================================================================================================
 
-    // START CASE 1
-    public String insertField(String fieldName) {
-        System.out.print("Insert " + fieldName + ": ");
-        return scanner.nextLine();
+    // START CASE 3
+    public void chooseEmployeeToDelete() {
+        showAllEmployeesFromDatabase();
+        System.out.print("Insert the id of the employee you are looking for: ");
+        Integer id = scanner.nextInt();
+        scanner.nextLine();
+        Employee employee = findEmployeeById(id);
+        printEmployee(employee);
+        Character userAnswer = askedForValidation();
+        verifyAnswer(userAnswer, id);
+
     }
 
-    public Employee createEmployeeByUser() {
-        String firstName = insertField(EmployeeFields.FIRSTNAME);
-        String lastName = insertField(EmployeeFields.LASTNAME);
-        String address = insertField(EmployeeFields.ADDRESS);
-        String speciality = insertField(EmployeeFields.SPECIALITY);
-        return new Employee(firstName, lastName, address, speciality);
+    private Character askedForValidation() {
+        System.out.println("Are you sure you want to delete this employee? (Y/N)");
+        return scanner.nextLine().toUpperCase().charAt(0);
     }
 
-    public void addEmployeeToDatabase() {
-        System.out.println("Complete fields for the new employee");
-        Employee employee = createEmployeeByUser();
-        dao.addEmployee(employee);
+    private void verifyAnswer(Character answer, Integer id) {
+        if (answer.equals('Y')) {
+            employeeRepository.delete(employeeRepository.findById(id));
+            System.out.println("Your selection was deleted with success!");
+        } else if (answer.equals('N')) {
+            //chooseMenuOptions();
+        } else {
+            //do something
+        }
     }
-    //END CASE 1
+    // END CASE 3
 
 
-    public void goodByeMessage() {
-        System.out.println("\n\uD83D\uDC4B≧◉ᴥ◉≦ \n" +
-                "Goodbye!");
+    // START CASE 4
+    public void showAllEmployeesFromDatabase() {
+        System.out.println("《《《《《     List of Employees    》》》》》");
+        employeeRepository.findAll().forEach(e -> System.out.println("------------------------------------\n" + e));
+        System.out.println("------------------------------------");
     }
-
-    public void invalidOptionMessage() {
-        System.out.println("\n(͠◉_◉᷅ ) \n" +
-                "Invalid option, please try again!\n" +
-                "Insert a valid option here: ");
-    }
-
-    public void chooseAnotherMenuOption() {
-        System.out.print("\nDo you want to choose another option menu? (y/n) \n" +
-                "Insert option here: ");
-        char yesOrNo;
-        do {
-            yesOrNo = scanner.nextLine().toLowerCase().charAt(0);
-            if (yesOrNo == 'y') {
-                chooseMenuOptions();
-            } else if (yesOrNo == 'n') {
-                goodByeMessage();
-                System.exit(0);
-            } else {
-                invalidOptionMessage();
-            }
-        } while (yesOrNo != 'y' && yesOrNo != 'n');
-    }
+    // END CASE 4
 }
