@@ -92,19 +92,6 @@ public class PetDao {
         }
     }
 
-    public Pet findPetByOwnersName(String name) {
-        Session session = null;
-        try {
-            session = PetClinicDatabase.getSessionFactory().openSession();
 
-            Pet pet = session.createQuery("from Pet p  where p.ownerName = '" + name + "'", Pet.class).getSingleResult();
-            return pet;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        } finally {
-            session.close();
-        }
-    }
 
 }
