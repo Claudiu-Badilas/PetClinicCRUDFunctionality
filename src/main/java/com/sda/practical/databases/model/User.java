@@ -28,5 +28,4 @@ public class User {
     @JoinColumn(name = "authority_id")
     private Authority authority;
 
-
 }

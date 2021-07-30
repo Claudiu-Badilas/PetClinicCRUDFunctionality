@@ -1,16 +1,13 @@
 package com.sda.practical.services;
 
 import com.sda.practical.databases.model.Pet;
-import com.sda.practical.databases.model.Speciality;
 import com.sda.practical.databases.model.Type;
 import com.sda.practical.databases.model.model_fields.PetFields;
 import com.sda.practical.databases.repository.PetRepository;
 import com.sda.practical.databases.repository.TypeRepository;
 import com.sda.practical.views.ConsolePrints;
 import com.sda.practical.views.MenuService;
-import com.sda.practical.views.MenuType;
 
-import java.util.List;
 import java.util.Scanner;
 
 public class MenuPet {
@@ -52,14 +49,6 @@ public class MenuPet {
         return typeRepository.findById(userOption);
     }
 
-//    public static boolean booleanType(Character petVaccinatedStatus) {
-//        if (petVaccinatedStatus == 'Y') {
-//            return true;
-//        } else {
-//            return false;
-//        }
-//    }
-
     public void savePet() {
         System.out.println("Add a new Pet: ");
         Pet pet = createPet();
@@ -79,52 +68,7 @@ public class MenuPet {
         printPet(pet);
         return pet;
     }
-    //
-//    public void chooseFieldToUpdate() {
-//        showAllPetsFromDatabase();
-//        Pet pet = selectPetById();
-//        System.out.println();
-//        menu.printMenu(MenuType.PET_UPDATE_MENU);
-//        System.out.print("Choose a valid option: ");
-//        int userOption = scanner.nextInt();
-//        scanner.nextLine();
-//        switch (userOption) {
-//            case 1:
-//                System.out.print("Insert the new vaccination status value (Y/N): ");
-//                Character newVaccineStatus = scanner.nextLine().toUpperCase().charAt(0);
-//                updateMethodFields(pet, null, newVaccineStatus, PetFields.PET_VACCINATION);
-//                break;
-//            case 2:
-//                System.out.print("Insert the new age value: ");
-//                Integer newAge = scanner.nextInt();
-//                scanner.nextLine();
-//                updateMethodFields(pet, newAge, null, PetFields.PET_AGE);
-//                break;
-//            case 3:
-//                chooseMenuOptions();
-//            default:
-//                print.invalidOptionMessage();
-//
-//        }
-//    }
-//
-//    public void updateMethodFields(Pet pet, Integer newAge, Character newVaccineStatus, String verifyCondition) {
-//        Pet petWithFildUpdated = verifyConditionForUpdate(pet, newAge, newVaccineStatus, verifyCondition);
-//        petRepository.update(petWithFildUpdated);
-//    }
-//
-//    public Pet verifyConditionForUpdate(Pet pet, Integer newAge, Character newVaccineStatus, String verifyCondition) {
-//        if (verifyCondition.equals(PetFields.PET_AGE)) {
-//            pet.setAge(newAge);
-//            printPet(pet);
-//        } else if (verifyCondition.equals(PetFields.PET_VACCINATION)) {
-//            Boolean newVaccine = booleanType(newVaccineStatus);
-//            pet.setIsVaccinated(newVaccine);
-//            printPet(pet);
-//        }
-//        return pet;
-//    }
-//
+
     public void printPet(Pet pet) {
         System.out.println("========================================================");
         System.out.println(pet);
@@ -171,70 +115,4 @@ public class MenuPet {
         System.out.println("-----------------------------------------------------------------------");
     }
     //Case 4 end
-
-
-//    public void chooseMenuOptions() {
-//        menu.printMenu(MenuType.PET_MENU);
-//        System.out.print("Please choose a valid option: ");
-//        Integer userOption;
-//        do {
-//            userOption = scanner.nextInt();
-//            scanner.nextLine();
-//            switch (userOption) {
-//                case 1:
-//                    addPet();
-//                    print.successfullySaved();
-//                    chooseAnotherMenuOption();
-//                    break;
-//                case 2:
-//                    chooseFieldToUpdate();
-//                    print.successfullySaved();
-//                    chooseAnotherMenuOption();
-//                    break;
-//                case 3:
-//                    showAllPetsFromDatabase();
-//                    choosePetToDelete();
-//                    print.successfullySaved();
-//                    chooseAnotherMenuOption();
-//                    break;
-//                case 4:
-//                    showAllPetsFromDatabase();
-//                    chooseAnotherMenuOption();
-//                    break;
-//                case 5:
-//                    new Menu().showMenu();
-//                    break;
-//                default:
-//                    print.invalidOptionMessage();
-//            }
-//        } while (userOption < 1 || userOption > 5);
-//    }
-
-
-
-
-
-
-
-
-
-
-
-
-//    public void chooseAnotherMenuOption() {
-//        System.out.print("\nDo you want to choose another option menu? (Y/N) \n" +
-//                "Insert option here: ");
-//        char yesOrNo;
-//        do {
-//            yesOrNo = scanner.nextLine().toUpperCase().charAt(0);
-//            if (yesOrNo == 'Y') {
-//                chooseMenuOptions();
-//            } else if (yesOrNo == 'N') {
-//                print.goodByeMessage();
-//                System.exit(0);
-//            } else {
-//                print.invalidOptionMessage();
-//            }
-//        } while (yesOrNo != 'Y' && yesOrNo != 'Y');
-//    }
 }

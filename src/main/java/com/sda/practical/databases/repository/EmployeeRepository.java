@@ -28,7 +28,7 @@ public class EmployeeRepository extends RepositoryImp<Employee> {
     public List<Employee> findAll() {
         try {
             session = PetClinicDatabase.getSessionFactory().openSession();
-            return session.createQuery("from Employee", Employee.class).list();
+            return session.createQuery("select e from Employee e", Employee.class).list();
         } catch (Exception e) {
             e.printStackTrace();
             return null;

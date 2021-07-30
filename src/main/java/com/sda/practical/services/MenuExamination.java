@@ -99,13 +99,6 @@ public class MenuExamination {
         examinationRepository.update(examination);
     }
 
-//    public Examination verifyConditionForUpdate(Examination examination, String newField) {
-//        Integer id = examination.getExamId();
-//        examination = examinationRepository.findById(id);
-//        examination.setTreatment(newField);
-//        return examination;
-//    }
-
     // end Case 2
 
     //Start case 3

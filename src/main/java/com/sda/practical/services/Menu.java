@@ -71,7 +71,7 @@ public class Menu {
                     menus.printMenu(MenuType.EMPLOYEE_UPDATE_MENU);
                     //menuId = MenuType.EMPLOYEE_UPDATE_MENU.getMenuId();
                     menuEmployee.chooseFieldToUpdate();
-                    chooseAnotherMenuOption(MenuType.EMPLOYEE_UPDATE_MENU);
+                    chooseAnotherMenuOption(MenuType.EMPLOYEE_MENU);
                 } else if (userInput == 3) {
                     menuEmployee.chooseEmployeeToDelete();
                     chooseAnotherMenuOption(MenuType.EMPLOYEE_MENU);
@@ -90,7 +90,7 @@ public class Menu {
                 } else if (userInput == 2) {
                     menus.printMenu(MenuType.PET_UPDATE_MENU);
                     menuId = MenuType.PET_UPDATE_MENU.getMenuId();
-//to do update employee
+//TODO update employee
 
                 } else if (userInput == 3) {
                     menuPet.choosePetToDelete();
@@ -110,7 +110,7 @@ public class Menu {
                 } else if (userInput == 2) {
                     //menus.printMenu(MenuType.PET_UPDATE_MENU);
                     //menuId = MenuType.PET_UPDATE_MENU.getMenuId();
-//to do update employee
+//TODO update examination
 
                 } else if (userInput == 3) {
                     menuExamination.printExaminationForCheckoutFromDatabase();

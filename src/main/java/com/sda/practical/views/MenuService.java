@@ -22,7 +22,6 @@ public class MenuService {
         mainMenu.add("2. Pets");
         mainMenu.add("3. Examination");
         mainMenu.add("4. Exit");
-        mainMenu.add("5. Users Details");
         this.menus.put(MenuType.MAIN_MENU, mainMenu);
 
         List<String> employeeMenu = new ArrayList<>();
